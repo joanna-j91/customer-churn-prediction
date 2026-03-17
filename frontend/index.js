@@ -1,4 +1,4 @@
-const API = 'http://localhost:5000';
+const API = 'https://churn-prediction-api-cuvg.onrender.com/';
 
   async function predict() {
     const btn = document.querySelector('.predict-btn');
