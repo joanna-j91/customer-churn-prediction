@@ -1,10 +1,8 @@
-// ── CONFIG ─────────────────────────────────────────────────
-const API = 'http://localhost:5000'; // Change to Render URL after deployment
 
-// ── SESSION STATS ──────────────────────────────────────────
+const API = 'https://churn-prediction-api-cuvg.onrender.com'; 
+
 const stats = { total: 0, high: 0, medium: 0, low: 0 };
 
-// ── FEATURE IMPORTANCE (from trained XGBoost model) ────────
 const FEATURE_IMPORTANCE = [
   { name: 'Contract Type',        score: 0.365 },
   { name: 'Fiber Optic Internet', score: 0.138 },
@@ -13,7 +11,6 @@ const FEATURE_IMPORTANCE = [
   { name: 'Dependents',           score: 0.028 },
 ];
 
-// ── CHECK API ON LOAD ───────────────────────────────────────
 window.addEventListener('DOMContentLoaded', async () => {
   try {
     const res = await fetch(`${API}/health`);
@@ -41,7 +38,6 @@ function setApiStatus(online) {
   }
 }
 
-// ── COLLECT FORM DATA ───────────────────────────────────────
 function getFormData() {
   const fields = [
     'tenure', 'MonthlyCharges', 'TotalCharges', 'Contract',
@@ -58,7 +54,6 @@ function getFormData() {
   return data;
 }
 
-// ── MAIN PREDICT FUNCTION ───────────────────────────────────
 async function predict() {
   const btn = document.getElementById('predictBtn');
   btn.disabled = true;
@@ -88,9 +83,7 @@ async function predict() {
   btn.querySelector('.btn-text').textContent = 'Analyse Customer';
 }
 
-// ── RENDER RESULTS ──────────────────────────────────────────
 function renderResults(result, inputData) {
-  // Hide placeholder, show results
   document.getElementById('placeholder').style.display = 'none';
   const resultsEl = document.getElementById('results');
   resultsEl.style.display = 'flex';
@@ -105,13 +98,11 @@ function renderResults(result, inputData) {
   renderFeatureImportance();
   renderStrategies(result.retention_strategies);
 
-  // Scroll results into view on mobile
   if (window.innerWidth < 900) {
     resultsEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 }
 
-// ── VERDICT ─────────────────────────────────────────────────
 function renderVerdict(isChurn, prob, risk) {
   const block = document.getElementById('verdictBlock');
   const text  = document.getElementById('verdictText');
@@ -124,17 +115,14 @@ function renderVerdict(isChurn, prob, risk) {
   sub.textContent  = `${prob}% churn probability — ${risk}`;
 }
 
-// ── GAUGE ────────────────────────────────────────────────────
 function renderGauge(prob) {
   const fill   = document.getElementById('gaugeFill');
   const needle = document.getElementById('gaugeNeedle');
   const pct    = document.getElementById('gaugePct');
 
-  // Arc length of the semicircle
   const totalLength = 283;
   const offset      = totalLength - (totalLength * prob / 100);
 
-  // Color based on prob
   let color;
   if      (prob >= 70) color = 'var(--red)';
   else if (prob >= 40) color = 'var(--amber)';
@@ -143,16 +131,13 @@ function renderGauge(prob) {
   fill.style.stroke          = color;
   fill.style.strokeDashoffset = offset;
 
-  // Needle rotation: -90deg = 0%, +90deg = 100%
   const angle = -90 + (prob / 100 * 180);
   needle.setAttribute('transform', `rotate(${angle}, 100, 110)`);
 
-  // Counter animation
   animateCounter(pct, 0, prob, 800, '%');
   pct.style.color = color;
 }
 
-// ── STAT CARDS ───────────────────────────────────────────────
 function renderStatCards(result) {
   const risk    = result.risk_group.split(' ')[0];
   const riskEl  = document.getElementById('riskVal');
@@ -164,13 +149,11 @@ function renderStatCards(result) {
   clvEl.textContent  = `$${result.clv_estimate.toLocaleString()}`;
   probEl.textContent = `${result.churn_probability}%`;
 
-  // Color the prob
   if (result.churn_probability >= 70)      probEl.style.color = 'var(--red)';
   else if (result.churn_probability >= 40) probEl.style.color = 'var(--amber)';
   else                                     probEl.style.color = 'var(--green)';
 }
 
-// ── FEATURE IMPORTANCE BARS ──────────────────────────────────
 function renderFeatureImportance() {
   const container = document.getElementById('featBars');
   container.innerHTML = '';
@@ -192,7 +175,6 @@ function renderFeatureImportance() {
     container.appendChild(row);
   });
 
-  // Animate bars after DOM insertion
   requestAnimationFrame(() => {
     document.querySelectorAll('.feat-fill').forEach(bar => {
       setTimeout(() => {
@@ -202,7 +184,6 @@ function renderFeatureImportance() {
   });
 }
 
-// ── RETENTION STRATEGIES ─────────────────────────────────────
 function renderStrategies(strategies) {
   const container = document.getElementById('strategyList');
   container.innerHTML = '';
@@ -219,7 +200,6 @@ function renderStrategies(strategies) {
   });
 }
 
-// ── UPDATE SESSION STATS ─────────────────────────────────────
 function updateSessionStats(riskGroup) {
   stats.total++;
   if      (riskGroup === 'High Risk')   stats.high++;
@@ -232,7 +212,6 @@ function updateSessionStats(riskGroup) {
   animateCounter(document.getElementById('lowRiskCount'),   stats.low   - (riskGroup === 'Low Risk'    ? 1 : 0), stats.low,    300);
 }
 
-// ── COUNTER ANIMATION ────────────────────────────────────────
 function animateCounter(el, from, to, duration, suffix = '') {
   const start = performance.now();
   function update(now) {
@@ -246,7 +225,6 @@ function animateCounter(el, from, to, duration, suffix = '') {
   requestAnimationFrame(update);
 }
 
-// ── ERROR ─────────────────────────────────────────────────────
 function showError(msg) {
   document.getElementById('placeholder').style.display = 'flex';
   document.getElementById('placeholder').innerHTML = `
