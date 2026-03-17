@@ -1,6 +1,6 @@
 ## Project Demo :
 - **Frontend:** [https://churn-predictor.vercel.app](https://churn-predictor.vercel.app)
-- **Backend API:** [https://churn-predictor-api.onrender.com](https://churn-predictor-api.onrender.com)- **Backend API:** [https://churn-predictor-api.onrender.com](https://churn-predictor-api.onrender.com)
+- **Backend API:** [https://churn-predictor-api.onrender.com](https://churn-predictor-api.onrender.com)
 
 ## Problem Statement
 Customer churn is a major challenge for telecom companies. Predicting which customers are likely to leave allows companies to intervene with targeted retention strategies before it's too late. Our system builds a machine learning pipeline that:
@@ -34,9 +34,13 @@ Customer churn is a major challenge for telecom companies. Predicting which cust
 
 ## Models Trained
 | Model | Accuracy | Balanced Accuracy | F1 Score | Recall | ROC-AUC |
+
 | Logistic Regression | 78.25% | 73.68% | 60.97% | 63.90% | 82.83% |
+
 | Random Forest | 77.68% | 71.58% | 58.24% | 58.56% | 81.26% |
+
 | Gradient Boosting | 76.40% | 72.84% | 59.51% | 65.24% | 82.63% |
+
 | **XGBoost** | **72.57%** | **73.64%** | **60.00%** | **75.94%** | **81.50%** |
 
 For churn prediction, recall and balanced accuracy score are two of the most important metrics to evaluate a model's performance.
