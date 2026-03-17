@@ -3,217 +3,324 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Customer Churn Predictor</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>ChurnShield — Customer Churn Predictor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
-<h1>Customer Churn Predictor</h1>
-<p class="subtitle">Enter customer details to predict churn risk and get retention strategies</p>
+  <!-- BACKGROUND GRID -->
+  <div class="bg-grid"></div>
+  <div class="bg-glow"></div>
 
-<div class="container">
-
-  <!-- INPUT FORM -->
-  <div class="card">
-    <h2>Customer Details</h2>
-    <div class="form-grid">
-
-      <div class="form-group">
-        <label>Tenure (months)</label>
-        <input type="number" id="tenure" value="2" min="0" max="72"/>
-      </div>
-
-      <div class="form-group">
-        <label>Monthly Charges ($)</label>
-        <input type="number" id="MonthlyCharges" value="85" min="0"/>
-      </div>
-
-      <div class="form-group">
-        <label>Total Charges ($)</label>
-        <input type="number" id="TotalCharges" value="170" min="0"/>
-      </div>
-
-      <div class="form-group">
-        <label>Contract Type</label>
-        <select id="Contract">
-          <option value="0">Month-to-month</option>
-          <option value="1">One year</option>
-          <option value="2">Two year</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>Internet Service</label>
-        <select id="InternetService">
-          <option value="0">DSL</option>
-          <option value="1">Fiber Optic</option>
-          <option value="2">No</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>Payment Method</label>
-        <select id="PaymentMethod">
-          <option value="0">Bank Transfer</option>
-          <option value="1">Credit Card</option>
-          <option value="2">Electronic Check</option>
-          <option value="3">Mailed Check</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>Online Security</label>
-        <select id="OnlineSecurity">
-          <option value="0">No</option>
-          <option value="1">Yes</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>Tech Support</label>
-        <select id="TechSupport">
-          <option value="0">No</option>
-          <option value="1">Yes</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>Phone Service</label>
-        <select id="PhoneService">
-          <option value="1">Yes</option>
-          <option value="0">No</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>Multiple Lines</label>
-        <select id="MultipleLines">
-          <option value="0">No</option>
-          <option value="1">Yes</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>Streaming TV</label>
-        <select id="StreamingTV">
-          <option value="0">No</option>
-          <option value="1">Yes</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>Streaming Movies</label>
-        <select id="StreamingMovies">
-          <option value="0">No</option>
-          <option value="1">Yes</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>Online Backup</label>
-        <select id="OnlineBackup">
-          <option value="0">No</option>
-          <option value="1">Yes</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>Device Protection</label>
-        <select id="DeviceProtection">
-          <option value="0">No</option>
-          <option value="1">Yes</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>Gender</label>
-        <select id="gender">
-          <option value="0">Female</option>
-          <option value="1">Male</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>Senior Citizen</label>
-        <select id="SeniorCitizen">
-          <option value="0">No</option>
-          <option value="1">Yes</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>Partner</label>
-        <select id="Partner">
-          <option value="0">No</option>
-          <option value="1">Yes</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>Dependents</label>
-        <select id="Dependents">
-          <option value="0">No</option>
-          <option value="1">Yes</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>Paperless Billing</label>
-        <select id="PaperlessBilling">
-          <option value="1">Yes</option>
-          <option value="0">No</option>
-        </select>
-      </div>
-
-      <button class="predict-btn" onclick="predict()">
-        Predict Churn Risk
-      </button>
-
+  <!-- HEADER -->
+  <header>
+    <div class="logo">
+      <span class="logo-icon">◈</span>
+      <span class="logo-text">ChurnShield</span>
     </div>
-  </div>
-
-  <!-- RESULT PANEL -->
-  <div class="result-card" id="resultPanel">
-    <h2>Prediction Result</h2>
-    <div class="placeholder" id="placeholder">
-      Fill in customer details and click Predict
+    <div class="header-stats" id="headerStats">
+      <div class="hstat">
+        <span class="hstat-val" id="totalPredicted">0</span>
+        <span class="hstat-lbl">Predicted</span>
+      </div>
+      <div class="hstat-divider"></div>
+      <div class="hstat">
+        <span class="hstat-val red" id="highRiskCount">0</span>
+        <span class="hstat-lbl">High Risk</span>
+      </div>
+      <div class="hstat-divider"></div>
+      <div class="hstat">
+        <span class="hstat-val amber" id="medRiskCount">0</span>
+        <span class="hstat-lbl">Medium Risk</span>
+      </div>
+      <div class="hstat-divider"></div>
+      <div class="hstat">
+        <span class="hstat-val green" id="lowRiskCount">0</span>
+        <span class="hstat-lbl">Low Risk</span>
+      </div>
     </div>
-    <div id="results" style="display:none; display:flex; flex-direction:column; gap:16px;">
-
-      <div class="verdict" id="verdict"></div>
-
-      <div class="prob-bar-wrap">
-        <label>Churn Probability</label>
-        <div class="prob-bar">
-          <div class="prob-fill" id="probFill" style="width:0%"></div>
-        </div>
-        <div class="prob-pct" id="probPct">0%</div>
-      </div>
-
-      <div class="stats-grid">
-        <div class="stat-box">
-          <div class="val" id="riskBadge"></div>
-          <div class="lbl">Risk Group</div>
-        </div>
-        <div class="stat-box">
-          <div class="val" id="clvVal"></div>
-          <div class="lbl">Annual CLV Estimate</div>
-        </div>
-      </div>
-
-      <div>
-        <h3 style="font-size:0.9rem; color:#aaa; margin-bottom:10px;">
-          Retention Strategies
-        </h3>
-        <div class="strategies" id="strategies"></div>
-      </div>
-
+    <div class="api-status" id="apiStatus">
+      <span class="status-dot"></span>
+      <span>API Connected</span>
     </div>
-  </div>
+  </header>
 
-</div>
+  <!-- MAIN -->
+  <main>
 
-<script src = "index.js"></script>
+    <!-- LEFT: FORM -->
+    <section class="form-section">
+      <div class="section-label">01 — CUSTOMER PROFILE</div>
+      <h2 class="section-title">Enter Details</h2>
 
+      <div class="form-grid">
+
+        <div class="form-group span2">
+          <label>Tenure <span class="unit">(months)</span></label>
+          <input type="number" id="tenure" value="2" min="0" max="72" />
+          <div class="input-bar"></div>
+        </div>
+
+        <div class="form-group">
+          <label>Monthly Charges <span class="unit">($)</span></label>
+          <input type="number" id="MonthlyCharges" value="85" min="0" />
+          <div class="input-bar"></div>
+        </div>
+
+        <div class="form-group">
+          <label>Total Charges <span class="unit">($)</span></label>
+          <input type="number" id="TotalCharges" value="170" min="0" />
+          <div class="input-bar"></div>
+        </div>
+
+        <div class="form-group">
+          <label>Contract Type</label>
+          <div class="select-wrap">
+            <select id="Contract">
+              <option value="0">Month-to-month</option>
+              <option value="1">One Year</option>
+              <option value="2">Two Year</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Internet Service</label>
+          <div class="select-wrap">
+            <select id="InternetService">
+              <option value="0">DSL</option>
+              <option value="1">Fiber Optic</option>
+              <option value="2">No Internet</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Payment Method</label>
+          <div class="select-wrap">
+            <select id="PaymentMethod">
+              <option value="0">Bank Transfer</option>
+              <option value="1">Credit Card</option>
+              <option value="2">Electronic Check</option>
+              <option value="3">Mailed Check</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Online Security</label>
+          <div class="select-wrap">
+            <select id="OnlineSecurity">
+              <option value="0">No</option>
+              <option value="1">Yes</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Tech Support</label>
+          <div class="select-wrap">
+            <select id="TechSupport">
+              <option value="0">No</option>
+              <option value="1">Yes</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Phone Service</label>
+          <div class="select-wrap">
+            <select id="PhoneService">
+              <option value="1">Yes</option>
+              <option value="0">No</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Multiple Lines</label>
+          <div class="select-wrap">
+            <select id="MultipleLines">
+              <option value="0">No</option>
+              <option value="1">Yes</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Streaming TV</label>
+          <div class="select-wrap">
+            <select id="StreamingTV">
+              <option value="0">No</option>
+              <option value="1">Yes</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Streaming Movies</label>
+          <div class="select-wrap">
+            <select id="StreamingMovies">
+              <option value="0">No</option>
+              <option value="1">Yes</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Online Backup</label>
+          <div class="select-wrap">
+            <select id="OnlineBackup">
+              <option value="0">No</option>
+              <option value="1">Yes</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Device Protection</label>
+          <div class="select-wrap">
+            <select id="DeviceProtection">
+              <option value="0">No</option>
+              <option value="1">Yes</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Gender</label>
+          <div class="select-wrap">
+            <select id="gender">
+              <option value="0">Female</option>
+              <option value="1">Male</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Senior Citizen</label>
+          <div class="select-wrap">
+            <select id="SeniorCitizen">
+              <option value="0">No</option>
+              <option value="1">Yes</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Partner</label>
+          <div class="select-wrap">
+            <select id="Partner">
+              <option value="0">No</option>
+              <option value="1">Yes</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Dependents</label>
+          <div class="select-wrap">
+            <select id="Dependents">
+              <option value="0">No</option>
+              <option value="1">Yes</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Paperless Billing</label>
+          <div class="select-wrap">
+            <select id="PaperlessBilling">
+              <option value="1">Yes</option>
+              <option value="0">No</option>
+            </select>
+          </div>
+        </div>
+
+        <button class="predict-btn span2" id="predictBtn" onclick="predict()">
+          <span class="btn-text">Analyse Customer</span>
+          <span class="btn-icon">→</span>
+        </button>
+
+      </div>
+    </section>
+
+    <!-- RIGHT: RESULTS -->
+    <section class="result-section" id="resultSection">
+
+      <!-- PLACEHOLDER -->
+      <div class="placeholder" id="placeholder">
+        <div class="placeholder-icon">◈</div>
+        <p>Enter customer details<br/>and run analysis</p>
+      </div>
+
+      <!-- RESULTS (hidden until prediction) -->
+      <div id="results" class="results-inner" style="display:none">
+
+        <!-- VERDICT -->
+        <div class="verdict-block" id="verdictBlock">
+          <div class="section-label">02 — VERDICT</div>
+          <div class="verdict-text" id="verdictText"></div>
+          <div class="verdict-sub" id="verdictSub"></div>
+        </div>
+
+        <!-- GAUGE -->
+        <div class="gauge-block">
+          <div class="section-label">03 — CHURN PROBABILITY</div>
+          <div class="gauge-wrap">
+            <svg class="gauge-svg" viewBox="0 0 200 120">
+              <!-- Track -->
+              <path d="M 20 110 A 90 90 0 0 1 180 110" fill="none" stroke="#1a1a2e" stroke-width="16" stroke-linecap="round"/>
+              <!-- Fill -->
+              <path id="gaugeFill" d="M 20 110 A 90 90 0 0 1 180 110" fill="none" stroke="#e74c3c" stroke-width="16" stroke-linecap="round" stroke-dasharray="283" stroke-dashoffset="283"/>
+              <!-- Needle -->
+              <line id="gaugeNeedle" x1="100" y1="110" x2="100" y2="30" stroke="#fff" stroke-width="2" stroke-linecap="round" transform="rotate(0, 100, 110)"/>
+              <circle cx="100" cy="110" r="5" fill="#fff"/>
+            </svg>
+            <div class="gauge-pct" id="gaugePct">0%</div>
+            <div class="gauge-labels">
+              <span class="green">LOW</span>
+              <span>MEDIUM</span>
+              <span class="red">HIGH</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- STAT CARDS -->
+        <div class="stat-cards">
+          <div class="stat-card" id="riskCard">
+            <div class="stat-label">Risk Group</div>
+            <div class="stat-val" id="riskVal">—</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Annual CLV</div>
+            <div class="stat-val" id="clvVal">—</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Probability</div>
+            <div class="stat-val" id="probVal">—</div>
+          </div>
+        </div>
+
+        <!-- FEATURE IMPORTANCE -->
+        <div class="feature-block">
+          <div class="section-label">04 — KEY RISK FACTORS</div>
+          <div class="feat-bars" id="featBars"></div>
+        </div>
+
+        <!-- STRATEGIES -->
+        <div class="strategy-block">
+          <div class="section-label">05 — RETENTION STRATEGIES</div>
+          <div class="strategy-list" id="strategyList"></div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <script src="index.js"></script>
 </body>
 </html>
