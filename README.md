@@ -1,5 +1,5 @@
 ## Project Demo :
-- **Frontend:** [https://churn-predictor.vercel.app](https://churn-predictor-sigma.vercel.app)
+- **Frontend:** [https://churn-predictor-sigma.vercel.app](https://churn-predictor-sigma.vercel.app)
 - **Backend API:** [https://churn-predictor-api.onrender.com](https://churn-predictor-api.onrender.com)
 
 ## Problem Statement
